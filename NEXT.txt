@@ -1,0 +1,5 @@
+~ CREATE NEW ROOM (room.class)
+~ VALIDATE USER (add_player.class)
+~ ASSIGN CHARACTER BASED ON PRIORITY AND PUT ENTRY IN DB (user_assemble.class)
+
+
