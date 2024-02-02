@@ -9,8 +9,8 @@ class add_players extends room{
 
     public $db;
     public function __construct(){
-        $this->db = $this->connect();
-        $this->db = ($this->db)?$this->db['connection']:die('Error in db line');
+        $this->db = (object) $this->connect();
+        $this->db = ($this->db->flag)?$this->db->connection:die('Error in db line');
     }
 
     public function player_exist($player,$room_id){
