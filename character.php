@@ -57,7 +57,7 @@
             <span>Minister</span>
         </div>
     </section><br>
-    <center><button>Who im ?</button>
+    <center><button class="active-btn">Who im ?</button>
     </center>
 </body>
 

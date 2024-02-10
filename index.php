@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="game-assets/gg-style/index.css">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="game-assets/g-script/index.js"></script>
+
     <style>
     
     @font-face{
@@ -46,6 +49,9 @@ body{
         font-size: 2em;
     }
 }
+#bgm_speaker{
+    width:50px;
+}
 
 
     </style>
@@ -65,12 +71,17 @@ body{
     <h6 style="text-align: right;">New multiplayer. V.0.11</h6>
     <br><br>
     <center>
-    <button>Create room</button>
-    <button>Join room</button>    
+    <button class="active-btn" onclick="opRoom()">Create room</button>
+    <button class="active-btn" onclick="joinRoom()">Join room</button>   
+    <button class="in-active-btn fa fa-volume-off" id="bgm_speaker" style="position:absolute;top:10px;right:10px;" onclick="muteBgm()"></button>    
+
     </center>
     
 </div>
+<?php
+require_once('game-assets/audio/audio.php');
 
+?>
 </body>
 
 </html>

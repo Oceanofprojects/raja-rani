@@ -47,9 +47,17 @@
         font-weight: bolder
     }
 
-    button {
+    .in-active-btn {
         padding: 10px;
-/*        width: 100px;*/
+        background: linear-gradient(0deg, #555, #555);
+        color:#ddd;
+        outline: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bolder
+    }
+    .active-btn {
+        padding: 10px;
         background: linear-gradient(0deg, darkorange, goldenrod, gold);
         outline: none;
         cursor: pointer;
