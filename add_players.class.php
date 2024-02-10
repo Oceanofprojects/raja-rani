@@ -29,10 +29,22 @@ class add_players extends room{
         }
     }
 
+    public function vaildate_player_name($name){
+        $name = str_replace(' ','',$name);
+        if(strlen($name) == 0){
+            return [false,'Empty characters not allowed, Please enter valid name !'];
+        }else if(preg_match('@[^\w]@',$name)){
+            return [false,'Special characters not allowed, Please enter valid name !'];
+        }else{
+            return [true,'Valid name'];
+        }
+    }
+
 }
 $obj = new add_players();
-$v = $obj->player_exist('mani',1234);
-print_r($v);
+// $v = $obj->player_exist('mani',1234);
+// print_r($v);
+print_r($obj->vaildate_player_name("test_name"));
 /***
  * 
  * GETTING ACTIVE ROOM

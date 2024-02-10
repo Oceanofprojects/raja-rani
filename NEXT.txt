@@ -1,6 +1,8 @@
-~ CREATE NEW ROOM (room.class)
-~ VALIDATE USER (add_player.class)
-~ ASSIGN CHARACTER BASED ON PRIORITY(DONE)
-     AND PUT ENTRY IN DB (player_assemble.class)(PEND)
+1 - create form for create new room with below params.
 
+     [name]
 
+2 - create form for join room with below params.
+
+     [name][roomid]      
+     

@@ -7,104 +7,70 @@
     <title>Raja Rani</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@200&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="game-assets/gg-style/index.css">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <style>
-    * {
-        margin: 0px;
-        padding: 0px;
-        font-family: "Poppins", sans-serif;
+    
+    @font-face{
+        font-family: g-title-f;
+/*        ENDOR___*/
+        src:url(game-assets/fonts/Kingthings_Gothique.ttf);
     }
-
-
-
-    body {
-        background: url('games-assets/bg4.png');
+body{
+        background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url('game-assets/gg-design/bg1.jpg');
         background-size: cover;
-    }
-
-    .g-title {
-        color: #fff;
-        text-align: center;
-        text-shadow: 0px 0px 5px #000, 0px 0px 15px #000;
-        font-size: 4em
-    }
-
-    .char_layer {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .characters {
-        width: 200px;
-        height: 200px;
-        border: 5px solid goldenrod;
-        border-radius: 10px;
-        display: flex;
+        display:flex;
         justify-content: center;
-        align-items: flex-end;
-        margin: 10px 0px;
-    }
+        align-items: center;
+    color:#fff;
 
-    .characters span {
-        color: #fff;
-        width: 100%;
-        text-align: center;
-        padding: 10px 0px;
-        background: rgba(0, 0, 0, .4);
-        font-weight: bolder
-    }
+}    
+.g-title{
+    font-family: g-title-f;
+    font-size: 7em;
+}
 
-    button {
-        padding: 10px;
-        width: 100px;
-        background: linear-gradient(0deg, darkorange, goldenrod, gold);
-        outline: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-weight: bolder
+@media only screen and (max-width:650px){
+    .g-title{
+        font-size: 5em;
     }
+}
+@media only screen and (max-width:450px){
+    .g-title{
+        font-size: 3em;
+    }
+}
+
+@media only screen and (max-width:300px){
+    .g-title{
+        font-size: 2em;
+    }
+}
+
+
     </style>
 </head>
 
 <body>
-    <div
+
+
+     <div
         style="filter:grayscale(100%);z-index:-1;background:url('https://i.gifer.com/ZMR1.gif');background-size:contain;position:absolute;top:0px;left:0px;height:100vh;width:100vw;">
 
     </div>
-    <br>
-    <h1 class="g-title">Characters</h1>
-    <br>
-    <section class="char_layer">
-        <div class="characters char_1" style="background: url('games-assets/characters/police.jpg');background-position: center;
-        background-size: cover;">
-            <span>Police</span>
-        </div>
 
-        <div class="characters char_2" style=" background: url('games-assets/characters/king.jpg');background-position: center;
-        background-size: cover;">
-            <span>King</span>
-        </div>
-
-        <div class="characters char_3" style=" background: url('games-assets/characters/thief.jpg');background-position: center;
-        background-size: cover;">
-            <span>Thief</span>
-        </div>
-        <div class="characters char_3" style=" background: url('games-assets/characters/queen.jpg');background-position: center;
-        background-size: cover;">
-            <span>Queen</span>
-        </div>
-
-        <div class="characters char_4" style=" background: url('games-assets/characters/minister.jpg');background-position: center;
-        background-size: cover;">
-            <span>Minister</span>
-        </div>
-    </section><br>
-    <center><button>Who im ?</button>
+<div class="center-content">
+    <h1 class="g-title">Raja&nbsp;<lord-icon src="https://cdn.lordicon.com/xmuplryc.json" trigger="loop" state="loop-wifi" style="width:50px;height:50px;" colors="primary:yellow">
+</lord-icon>&nbsp;Rani</h1>
+    <h6 style="text-align: right;">New multiplayer. V.0.11</h6>
+    <br><br>
+    <center>
+    <button>Create room</button>
+    <button>Join room</button>    
     </center>
+    
+</div>
+
 </body>
 
 </html>
