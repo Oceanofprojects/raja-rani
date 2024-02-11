@@ -21,22 +21,26 @@ class game{
 }
 
 let gameObj = new game();
-
-function opRoom(){
+function c_sfx(){
 	gameObj._play_click_sound();
 }
+function opRoom(){
+	// window.open('d.php','_self');
+}
 function joinRoom(){
-	gameObj._play_click_sound();
+	// window.open('d.php','_self');
+//	gameObj._play_click_sound();
 }
 var soundLoop = 0;
 function muteBgm(){
 	$('#bgm_speaker').removeClass();
+	gameObj._play_click_sound();
 	if(soundLoop%2==0){
 		gameObj._play_bgm_sound();
-		$('#bgm_speaker').attr('class','active-btn fa fa-volume-up');
+		$('#bgm_speaker').attr('class','icon active-btn fa fa-volume-up');
 	}else{
 				gameObj._pause_bgm_sound();
-		$('#bgm_speaker').attr('class','in-active-btn fa fa-volume-off');
+		$('#bgm_speaker').attr('class','icon in-active-btn fa fa-volume-off');
 
 	}
 	soundLoop++;

@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="game-assets/gg-style/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
 
    <style type="text/css">
         @font-face{
@@ -18,6 +20,7 @@
        body{
                 background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url('game-assets/gg-design/bg2.jpg');
         background-size: cover;
+        background-attachment:fixed;
         font-family: g-title-f;
    }
    </style>
@@ -26,7 +29,7 @@
 
 <body>
     <div
-        style="filter:grayscale(100%);z-index:-1;background:url('https://i.gifer.com/ZMR1.gif');background-size:contain;position:absolute;top:0px;left:0px;height:100vh;width:100vw;">
+        style="filter:grayscale(100%);z-index:-1;background:url('https://i.gifer.com/ZMR1.gif');background-size:contain;position:absolute;top:0px;left:0px;height:100vh;width:100%;">
 
     </div>
     <br>
@@ -57,8 +60,12 @@
             <span>Minister</span>
         </div>
     </section><br>
-    <center><button class="active-btn">Who im ?</button>
+    <center><button class="active-btn" onclick="c_sfx();">Who im ?</button>
     </center>
 </body>
+    <script src="game-assets/g-script/index.js"></script>
 
+<?php
+require_once('game-assets/audio/audio.php');
+?>
 </html>
