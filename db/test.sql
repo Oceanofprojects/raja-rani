@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 07, 2024 at 01:44 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Feb 13, 2024 at 10:30 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `characters` (
   `_character` varchar(25) DEFAULT NULL,
   `points` int(11) DEFAULT NULL,
   `priority` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `characters`
@@ -58,19 +58,20 @@ CREATE TABLE `play_ground` (
   `room_id` int(11) DEFAULT NULL,
   `players` varchar(10) DEFAULT NULL,
   `player_role` tinyint(1) DEFAULT NULL,
+  `player_status` int(3) DEFAULT NULL,
   `character_id` int(11) DEFAULT NULL,
   `_date` date DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `play_ground`
 --
 
-INSERT INTO `play_ground` (`id`, `room_id`, `players`, `player_role`, `character_id`, `_date`, `created_on`) VALUES
-(1, 1234, 'mani', 1, 1, '2024-02-07', '2024-02-07 12:30:14'),
-(2, 1234, 'mani maran', 0, 2, '2024-02-07', '2024-02-07 12:30:17'),
-(3, 1234, 'kumar', 0, 3, '2024-02-07', '2024-02-07 12:30:20');
+INSERT INTO `play_ground` (`id`, `room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`, `created_on`) VALUES
+(1, 1234, 'mani', 1, 2, 1, '2024-02-07', '2024-02-13 09:28:14'),
+(2, 1234, 'mani maran', 0, 2, 2, '2024-02-07', '2024-02-13 09:28:17'),
+(3, 1234, 'kumar', 0, 2, 3, '2024-02-07', '2024-02-13 09:28:19');
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,7 @@ CREATE TABLE `points` (
   `points` bigint(10) DEFAULT NULL,
   `_date` date DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `points`
@@ -107,7 +108,7 @@ CREATE TABLE `room` (
   `status` enum('open','close','waiting') DEFAULT NULL,
   `_date` date DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `room`

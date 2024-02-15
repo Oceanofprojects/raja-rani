@@ -68,7 +68,7 @@ body{
     <h6 style="text-align: right;">New multiplayer. V.0.11</h6>
     <br><br>
     <center>
-    <button class="active-btn" onclick="c_sfx();opRoom();">Create room</button>
+    <button class="active-btn" onclick="c_sfx();crRoom();">Create room</button>
     <button class="active-btn" onclick="c_sfx();joinRoom();">Join room</button>   
         
 

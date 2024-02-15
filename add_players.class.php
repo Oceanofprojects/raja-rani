@@ -4,47 +4,106 @@ require_once 'db_line/connect.php';
 require_once 'room.class.php';
 
 
-class add_players extends room{
+class add_players extends room
+{
     use connection;
 
     public $db;
-    public function __construct(){
+    public function __construct()
+    {
+        parent::__construct();
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag)?$this->db->connection:die('Error in db line');
+        $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
     }
 
-    public function player_exist($player,$room_id){
-        ($this->valid_room($room_id)[0])?'':die("Invalid room ID");
-        $q = "SELECT * FROM play_ground WHERE players = '$player' AND room_id = $room_id";
+    public function player_exist($player, $room_id)
+    {
+        // ($this->valid_room($room_id)[0]) ? '' : die("Invalid room ID");
+        $q = "SELECT * FROM play_ground WHERE players = '$player' AND room_id = '$room_id'";
         $sql = $this->db->prepare($q);
-        if($sql->execute()){
+        if ($sql->execute()) {
             $res = $sql->fetch();
-            if(is_array($res)){
-                return (count($res)>0)?[true,'Player Already exist']:[false,'Player Already exist'];
-            }else{
-                return [true,'New Player'];
+            if (is_array($res)) {
+                return (count($res) > 0) ? [true, 'Player Already exist', 2] : [false, 'New Player', 1];
+            } else {
+                return [false, 'New Player', 1];
             }
-        }else{
-            return [false,'Error in player exist module'];
+        } else {
+            return [false, 'Error in player exist module', 0];
         }
     }
 
-    public function vaildate_player_name($name){
-        $name = str_replace(' ','',$name);
-        if(strlen($name) == 0){
-            return [false,'Empty characters not allowed, Please enter valid name !'];
-        }else if(preg_match('@[^\w]@',$name)){
-            return [false,'Special characters not allowed, Please enter valid name !'];
-        }else{
-            return [true,'Valid name'];
+    public function validate_player_name($player)
+    {
+        $player = str_replace(' ', '', $player);
+        if (strlen($player) == 0) {
+            return [false, 'Empty characters not allowed, Please enter valid name !'];
+        } else if (preg_match('@[^\w]@', $player)) {
+            return [false, 'Special characters not allowed, Please enter valid name !'];
+        } else {
+            if (strlen($player) >= 3 && strlen($player) <= 10) {
+                return [true, "Valid player name"];
+            } else {
+                return [false, "Name should be available between 3 to 10 characters, Please enter valid name !"];
+            }
         }
     }
 
+    public function join_room($player, $room_id)
+    {
+        $validation = $this->validate_player_name($player);
+        if ($validation[0]) {
+            $player_detail = $this->player_exist($player, $room_id);
+
+            if (!$player_detail[0] && $player_detail[2] == 1) {
+                $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room_id', '$player', '0', '2', '0', '$this->date')");
+                $sql_join = $q->execute();
+                return [true, "Player created Successfully"];
+            } else {
+                return $player_detail;
+            }
+        } else {
+            return $validation;
+        }
+    }
+
+    public function room_create($player)
+    {
+        $room = $this->create_room();
+        if ($room[0]) 
+        {
+            $validation = $this->validate_player_name($player);
+            if ($validation[0]) 
+            {
+                $player_detail = $this->player_exist($player, $room[1]);
+                if (!$player_detail[0] && $player_detail[2] == 1) 
+                {
+                    $store = $this->store_room($room[1]);
+                    if ($store[0]) 
+                    {
+                        $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room[1]', '$player', '1', '2', '0', '$this->date')");
+                        $sql_join = $q->execute();
+                        return "success";
+                    } 
+                    else
+                        return $store;
+                } 
+                else
+                    return $player_detail;
+            } 
+            else
+                return $validation;
+        } 
+        else
+            return $room;
+    }
 }
+
+
 $obj = new add_players();
-// $v = $obj->player_exist('mani',1234);
-// print_r($v);
-print_r($obj->vaildate_player_name("test_name"));
+// print_r($obj->join_room("Dhinesh", 123423));
+print_r($obj->room_create("Dhineeee"));
+
 /***
  * 
  * GETTING ACTIVE ROOM
@@ -62,7 +121,3 @@ print_r($obj->vaildate_player_name("test_name"));
  * SELECT * FROM play_ground left join points on play_ground.id = points.ground_id
  * 
  */
-
-?>
-
-

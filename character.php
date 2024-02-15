@@ -23,6 +23,14 @@
         background-attachment:fixed;
         font-family: g-title-f;
    }
+   .fetch_character_layer____{
+    background:#000a;
+    height:100vh;
+    width:100%;
+    position: fixed;
+    top:0px;
+    left:0px;
+   }
    </style>
 
 </head>
@@ -50,17 +58,23 @@
         background-size: cover;">
             <span>Thief</span>
         </div>
-        <div class="characters char_3" style=" background: url('game-assets/gg-design/characters/queen.jpg');background-position: center;
+        <div class="characters char_4" style=" background: url('game-assets/gg-design/characters/queen.jpg');background-position: center;
         background-size: cover;">
             <span>Queen</span>
         </div>
 
-        <div class="characters char_4" style=" background: url('game-assets/gg-design/characters/minister.jpg');background-position: center;
+        <div class="characters char_5" style=" background: url('game-assets/gg-design/characters/minister.jpg');background-position: center;
         background-size: cover;">
             <span>Minister</span>
         </div>
+
+        <div class="characters char_6" style=" background: url('game-assets/gg-design/characters/wizard.jpg');background-position: center;
+        background-size: cover;">
+            <span>Wizard</span>
+        </div>
     </section><br>
-    <center><button class="active-btn" onclick="c_sfx();">Who im ?</button>
+<div class="fetch_character_layer"></div>
+    <center><button class="active-btn" onclick="c_sfx();choose_character()">Who im ?</button>
     </center>
 </body>
     <script src="game-assets/g-script/index.js"></script>

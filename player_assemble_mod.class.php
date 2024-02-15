@@ -1,22 +1,37 @@
 <?php
 
-class user_assemble{
+require_once 'db_line/connect.php';
+require_once 'add_players.class.php';
+class user_assemble extends add_players
+{
+    use connection;
+    public $db;
     private $characters;
     private $active_chars;
     private $player_with_chars;
     private $active_main_chars = [];
-    public function __construct(){
-        $this->characters = [
-            ['id'=>1,'character'=>'raja','points'=>1000,'priority'=>true],
-            ['id'=>2,'character'=>'rani','points'=>750,'priority'=>true],
-            ['id'=>3,'character'=>'thirudan','points'=>0,'priority'=>true],
-            ['id'=>6,'character'=>'police','points'=>250,'priority'=>true],
-            ['id'=>7,'character'=>'pasasasolice','points'=>2050,'priority'=>true],
-            ['id'=>5,'character'=>'mandri','points'=>500,'priority'=>false],
-            ['id'=>4,'character'=>'thota kaaran','points'=>100,'priority'=>false]
-        ];
+    public function __construct($name, $room_id)
+    {
+        $this->db = (object) $this->connect();
+        $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
+
+        // Character assign
+        $char = $this->character_details();
+        if ($char[0])
+            $this->characters = $char[1];
+        else
+            die($char[1]);
+
         $this->active_chars = [];
         $this->player_with_chars = [];
+
+        // $x = $this->add_character($name, $room_id);
+        // if($x[0]){
+        //     $y[] = [$x[1]];
+        // }
+        // $v = $this->users_entry($y);
+
+
         //Execution starts
         $v = $this->users_entry([
             'name1',
@@ -29,30 +44,30 @@ class user_assemble{
             // 'name8'
 
         ]);
-        if($v['flag']){    
+        if ($v['flag']) {
             print_r($this->player_with_chars);
-        }else{
+        } else {
             print_r($v);
         }
     }
 
-    public function assign_character($user){
+    public function assign_character($user)
+    {
         //Checking Main character is filled or not.
-        if($this->is_priority_filled()){
+        if ($this->is_priority_filled()) {
             $assign = $this->find_main_characters()['not_main'];
-        }else{
+        } else {
             $assign = $this->find_main_characters()['main'];
         }
 
-        $id = $assign[rand(0,count($assign)-1)];//CURRENT ID
+        $id = $assign[rand(0, count($assign) - 1)]; //CURRENT ID
 
-        if(!in_array($id,$this->active_chars)){        
+        if (!in_array($id, $this->active_chars)) {
             $this->active_chars[] = $id;
-            $this->player_with_chars[] = [$user,$id];//Assign character for user 
-        }else{
-            $this->assign_character($user);//re-assign
+            $this->player_with_chars[] = [$user, $id]; //Assign character for user 
+        } else {
+            $this->assign_character($user); //re-assign
         }
-
     }
 
     /*public function assign_character($user){
@@ -65,55 +80,79 @@ class user_assemble{
         }
     }*/
 
-    public function is_priority_filled(){
-        foreach($this->find_main_characters()['main'] as $character){
-            if(!in_array($character,$this->active_chars)){
+    public function is_priority_filled()
+    {
+        foreach ($this->find_main_characters()['main'] as $character) {
+            if (!in_array($character, $this->active_chars)) {
                 return false;
             }
         }
         return true;
     }
 
-    public function find_main_characters(){
-        $data = []; 
-        foreach($this->characters as $character){
-            if($character['priority']){
+    public function find_main_characters()
+    {
+        $data = [];
+        foreach ($this->characters as $character) {
+            if ($character['priority']) {
                 $main[] = $character['id'];
-            }else{
+            } else {
                 $not_main[] = $character['id'];
             }
         }
-        return ['main'=>$main,'not_main'=>$not_main];
+        return ['main' => $main, 'not_main' => $not_main];
     }
 
-    public function users_entry($players){
+    public function users_entry($players)
+    {
         $players_size = count($players);
         $total_char_size = count($this->characters);
         $char_priority_size = count($this->find_main_characters()['main']);
-        if($players_size <= $total_char_size){
-            if(count($players) >= ($char_priority_size)){
-                foreach($players as $player){
+        if ($players_size <= $total_char_size) {
+            if (count($players) >= ($char_priority_size)) {
+                foreach ($players as $player) {
                     $this->assign_character($player);
                 }
-                return ['status'=>'success','flag'=>true,'message'=>'Players assigned'];
-            }else{
-                return ['status'=>'failed','flag'=>false,'message'=>"Oops !, Minimum ".$char_priority_size." Players"];
+                return ['status' => 'success', 'flag' => true, 'message' => 'Players assigned'];
+            } else {
+                return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Minimum " . $char_priority_size . " Players"];
             }
-        }else{
-            return ['status'=>'failed','flag'=>false,'message'=>"Oops !, Player limit -".$total_char_size];
+        } else {
+            return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Player limit -" . $total_char_size];
         }
     }
 
-    public function player_assigned_chars(){
-        foreach($this->player_with_chars as $player_data){
-           $t[] = [$player_data[0],$this->characters[$player_data[1]]];
+    public function player_assigned_chars()
+    {
+        foreach ($this->player_with_chars as $player_data) {
+            $t[] = [$player_data[0], $this->characters[$player_data[1]]];
         }
-       return $t;
+        return $t;
     }
 
-    
+    public function character_details()
+    {
+        $sql = $this->db->prepare("SELECT * FROM characters");
+        if ($sql->execute()) {
+            $res = $sql->fetchall(PDO::FETCH_ASSOC);
+            if (is_array($res) and count($res) > 0)
+                return [true, $res];
+            else
+                return [false, "Characters not available"];
+        }
+    }
+
+    public function add_character($name, $room_id)
+    {
+        $player = $this->validate_player_name($name, $room_id);
+        if (!$player[0] && $player[2] == 1) {
+            return [true];
+        } else {
+            return [false, $player[1]];
+        }
+    }
 }
-$obj = new user_assemble();
+$obj = new user_assemble("Dhineshhhh", "U12345");
 /***
  * 
  * GETTING ACTIVE ROOM
@@ -131,7 +170,3 @@ $obj = new user_assemble();
  * SELECT * FROM play_ground left join points on play_ground.id = points.ground_id
  * 
  */
-
-?>
-
-

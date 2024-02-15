@@ -23,13 +23,14 @@ class game{
 let gameObj = new game();
 function c_sfx(){
 	gameObj._play_click_sound();
+	setTimeout(()=>{
+	},200)
 }
-function opRoom(){
-	// window.open('d.php','_self');
+function crRoom(){
+	window.open('createroom.php','_self');
 }
 function joinRoom(){
-	// window.open('d.php','_self');
-//	gameObj._play_click_sound();
+	window.open('joinroom.php','_self');
 }
 var soundLoop = 0;
 function muteBgm(){
@@ -45,3 +46,10 @@ function muteBgm(){
 	}
 	soundLoop++;
 }
+var speed=1000;
+function choose_character(){
+	console.log(Math.floor(Math.random()*$('.characters').length));
+	// 	$('.char_'+(e+1)).css('border-color','#fff');
+	// });
+}
+
