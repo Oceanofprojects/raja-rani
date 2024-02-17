@@ -46,10 +46,64 @@ function muteBgm(){
 	}
 	soundLoop++;
 }
-var speed=1000;
+
+var speed=650;//DEFAULT LOOP SPEED
+var loop=0;
+var flag=false;
+var innerloop = 0;
+let timeOfloop = 5;
 function choose_character(){
-	console.log(Math.floor(Math.random()*$('.characters').length));
-	// 	$('.char_'+(e+1)).css('border-color','#fff');
-	// });
+           if (loop < $('.c-profile').length) {
+           		if(flag){
+           			$('.char_'+(tmp+1)).css({
+            'box-shadow':'0px 0px 5px 5px rgba(0,0,0,.3),0px 10px 10px 10px rgba(0,0,0,.1)'
+
+                });
+                // console.log('.char_'+(tmp+1)+'TRANS1')
+
+           		}else{
+           			flag = true;
+           		}
+                $('.char_'+(loop+1)).css({
+            'box-shadow':'0px 0px 5px 5px rgba(256,256,256,.5),0px 0px 10px 10px rgba(256,256,256,.2)'
+                });
+                // console.log('.char_'+(loop+1)+'RED')
+
+                setTimeout(function(){
+                	choose_character()
+                }, speed);
+                tmp = loop;
+            loop++;
+            }else{
+            	$('.char_'+(loop)).css({
+		            'box-shadow':'0px 0px 5px 5px rgba(0,0,0,.3),0px 10px 10px 10px rgba(0,0,0,.1)'
+                });
+                // console.log('.char_'+(loop)+'TRANS')
+            	loop = 0;
+            	tmp = 0;
+            	flag = false;
+            	if(innerloop == timeOfloop){
+            		//AFTER LOOP ANIMATION
+            		$('.char_'+myChar).css({
+            			'box-shadow':'0px 0px 5px 5px rgba(256,256,256,.5),0px 0px 10px 10px rgba(256,256,256,.2)'
+                	});
+					$('#btn').prop({'disabled':false,'class':'active-btn'}).text('Next Step')
+            	}else{
+            		speed-=100;
+	            	choose_character();
+	            	innerloop++;            		
+            	} 
+            }
 }
 
+function get_character(){
+	$('#btn').prop({'disabled':true,'class':'in-active-btn'}).text('Getting in random..')
+	//CODE AJAX HERE
+
+	/**
+	 * 
+	 * FIND PLAYER'S CHARACTER ID BASED ON PLAYER'S UNI-ID
+	 * 
+	 * */
+	myChar = 3;//DEFAULT ID (FOR TESTING)...
+}
