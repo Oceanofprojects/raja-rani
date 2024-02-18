@@ -47,7 +47,7 @@ function muteBgm(){
 	soundLoop++;
 }
 
-var speed=650;//DEFAULT LOOP SPEED
+var speed=100;//DEFAULT LOOP SPEED
 var loop=0;
 var flag=false;
 var innerloop = 0;
@@ -89,7 +89,7 @@ function choose_character(){
                 	});
 					$('#btn').prop({'disabled':false,'class':'active-btn'}).text('Next Step')
             	}else{
-            		speed-=100;
+            		speed+=100;
 	            	choose_character();
 	            	innerloop++;            		
             	} 

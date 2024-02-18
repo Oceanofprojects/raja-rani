@@ -11,24 +11,11 @@
     
 
    <style type="text/css">
-        @font-face{
-        font-family: g-title-f;
-/*        ENDOR___*/
-        src:url(game-assets/fonts/ENDOR___.ttf);
-    }
        body{
                 background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),url('game-assets/gg-design/bg3.jpg');
         background-size: cover;
         background-attachment:fixed;
-        font-family: g-title-f;
-   }
-   .fetch_character_layer____{
-    background:#000a;
-    height:100vh;
-    width:100%;
-    position: fixed;
-    top:0px;
-    left:0px;
+        font-family:Montserrat;
    }
    </style>
 
@@ -40,63 +27,72 @@
 
     </div>
     <br>
-    <h1 class="g-title">Main <span style="color:darkred">C</span>haracters</h1>
+    <h1 class="g-title">Makeup <span style="color:darkred">R</span>oom</h1>
     <br>
+    <style type="text/css">
+    .char_1{
+        background: url('game-assets/gg-design/characters/police.jpg');background-position: center;background-size:100%;
+    }
+    .char_2{
+        background: url('game-assets/gg-design/characters/king.jpg');background-position: center;background-size:100%;
+    }
+    .char_3{
+        background: url('game-assets/gg-design/characters/thief.jpg');background-position: center;background-size:100%;
+    }
+    .char_4{
+        background: url('game-assets/gg-design/characters/queen.jpg');background-position: center;background-size:100%;
+    }
+    .char_5{
+        background: url('game-assets/gg-design/characters/minister.jpg');background-position: center;background-size:100%;
+    }
+    .char_6{
+        background: url('game-assets/gg-design/characters/wizard.jpg');background-position: center;background-size:100%;
+    }
+    </style>
     <section class="c-profile-layer">
         <div class="c-profile char_1">
-        <img src="game-assets/gg-design/characters/police.jpg">
                 <span>
                     Police
                 </span>
-            <div class="corner-frame">
-            </div> 
+            <div class="corner-frame"></div> 
         </div>
+
         <div class="c-profile char_2">
-        <img src="game-assets/gg-design/characters/king.jpg">
                 <span>
                     King
                 </span>
-            <div class="corner-frame">
-            </div> 
-        </div>
-        <div class="c-profile char_3">
-        <img src="game-assets/gg-design/characters/queen.jpg">
-                <span>
-                    Queen
-                </span>
-            <div class="corner-frame">
-            </div> 
+            <div class="corner-frame"></div> 
         </div>
 
-        <div class="c-profile char_4">
-        <img src="game-assets/gg-design/characters/thief.jpg">
+        <div class="c-profile char_3">
                 <span>
                     Thief
                 </span>
-            <div class="corner-frame">
-            </div> 
+            <div class="corner-frame"></div> 
+        </div>
+
+        <div class="c-profile char_4">
+                <span>
+                    Queen
+                </span>
+            <div class="corner-frame"></div> 
         </div>
 
         <div class="c-profile char_5">
-        <img src="game-assets/gg-design/characters/minister.jpg">
                 <span>
                     Minister
                 </span>
-            <div class="corner-frame">
-            </div> 
+            <div class="corner-frame"></div> 
         </div>
 
         <div class="c-profile char_6">
-        <img src="game-assets/gg-design/characters/wizard.jpg">
                 <span>
                     Wizard
                 </span>
-            <div class="corner-frame">
-            </div> 
+            <div class="corner-frame"></div> 
         </div>
      </section>
  <br>
-<div class="fetch_character_layer"></div>
     <center><button id="btn" class="active-btn" onclick="c_sfx();get_character();choose_character()">Who im ?</button>
     </center>
     <link rel="stylesheet" href="game-assets/gg-style/index.css">

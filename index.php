@@ -33,22 +33,6 @@ body{
     font-size: 7em;
 }
 
-@media only screen and (max-width:650px){
-    .g-title{
-        font-size: 5em;
-    }
-}
-@media only screen and (max-width:450px){
-    .g-title{
-        font-size: 3em;
-    }
-}
-
-@media only screen and (max-width:300px){
-    .g-title{
-        font-size: 2em;
-    }
-}
 
 
 
