@@ -51,7 +51,7 @@ var speed=100;//DEFAULT LOOP SPEED
 var loop=0;
 var flag=false;
 var innerloop = 0;
-let timeOfloop = 5;
+let timeOfloop = 4;
 function choose_character(){
            if (loop < $('.c-profile').length) {
            		if(flag){
@@ -87,7 +87,7 @@ function choose_character(){
             		$('.char_'+myChar).css({
             			'box-shadow':'0px 0px 5px 5px rgba(256,256,256,.5),0px 0px 10px 10px rgba(256,256,256,.2)'
                 	});
-					$('#btn').prop({'disabled':false,'class':'active-btn'}).text('Next Step')
+					$('#btn').prop({'disabled':false,'class':'active-btn'}).text('Next Step').attr('onclick','window.open("playground/")');
             	}else{
             		speed+=100;
 	            	choose_character();
@@ -105,5 +105,5 @@ function get_character(){
 	 * FIND PLAYER'S CHARACTER ID BASED ON PLAYER'S UNI-ID
 	 * 
 	 * */
-	myChar = 3;//DEFAULT ID (FOR TESTING)...
+	myChar = (Math.floor(Math.random()*5)+1);//DEFAULT RAND ID (FOR TESTING)...
 }
