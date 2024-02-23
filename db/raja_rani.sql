@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 13, 2024 at 10:30 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Host: 127.0.0.1
+-- Generation Time: Feb 23, 2024 at 06:35 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `test`
+-- Database: `raja_rani`
 --
 
 -- --------------------------------------------------------
@@ -55,7 +55,7 @@ INSERT INTO `characters` (`id`, `_character`, `points`, `priority`) VALUES
 
 CREATE TABLE `play_ground` (
   `id` int(11) NOT NULL,
-  `room_id` int(11) DEFAULT NULL,
+  `room_id` varchar(7) DEFAULT NULL,
   `players` varchar(10) DEFAULT NULL,
   `player_role` tinyint(1) DEFAULT NULL,
   `player_status` int(3) DEFAULT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE `play_ground` (
 --
 
 INSERT INTO `play_ground` (`id`, `room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`, `created_on`) VALUES
-(1, 1234, 'mani', 1, 2, 1, '2024-02-07', '2024-02-13 09:28:14'),
-(2, 1234, 'mani maran', 0, 2, 2, '2024-02-07', '2024-02-13 09:28:17'),
-(3, 1234, 'kumar', 0, 2, 3, '2024-02-07', '2024-02-13 09:28:19');
+(1, '1234', 'mani', 1, 2, 1, '2024-02-07', '2024-02-13 09:28:14'),
+(2, '1234', 'mani maran', 0, 2, 2, '2024-02-07', '2024-02-13 09:28:17'),
+(3, '1234', 'kumar', 0, 2, 3, '2024-02-07', '2024-02-13 09:28:19');
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,7 @@ INSERT INTO `points` (`id`, `ground_id`, `points`, `_date`, `created_on`) VALUES
 
 CREATE TABLE `room` (
   `id` int(11) NOT NULL,
-  `room_id` int(11) DEFAULT NULL,
+  `room_id` varchar(7) DEFAULT NULL,
   `status` enum('open','close','waiting') DEFAULT NULL,
   `_date` date DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -115,7 +115,7 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`id`, `room_id`, `status`, `_date`, `created_on`) VALUES
-(1, 1234, 'open', '2024-01-27', '2024-02-07 12:20:12');
+(1, '1234', 'open', '2024-01-27', '2024-02-07 12:20:12');
 
 --
 -- Indexes for dumped tables

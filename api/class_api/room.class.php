@@ -1,22 +1,21 @@
 <?php
-require_once 'db_line/connect.php';
+require_once '../db_line/connect.php';
 class room
 {
     use connection;
     public $db;
-    private $room_id_prefix;
     public $date;
     public function __construct()
     {
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
-        $this->room_id_prefix = range('A', 'Z');
+        $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw('Error in db line');
         $this->date = date("Y/m/d");
     }
 
     public function valid_room($room_id)
     {
-        $q = "SELECT * FROM room WHERE room_id = '$room_id' AND status <> 'closed'";
+       // $q = "SELECT * FROM room WHERE room_id = '$room_id' AND status <> 'closed'";
+        $q = "SELECT * FROM room WHERE room_id = '$room_id' AND (status <> 'open' OR status <> 'playing') AND _date <> CURRENT_DATE";
         $sql = $this->db->prepare($q);
         if ($sql->execute()) {
             $res = $sql->fetch();
@@ -32,9 +31,10 @@ class room
 
     public function create_room()
     {
-        $room_id = $this->room_id_prefix[rand(0, 25)] . rand(1000, 9999);
-        $room_details = $this->valid_room($room_id);
+        $prefix = ['A','B','C','D','E','F'];
+        $room_id = $prefix[rand(0, count($prefix)-1)] . rand(1000, 9999);
 
+        $room_details = $this->valid_room($room_id);
         if ($room_details[0] && $room_details[2] == 0) {
             return $room_details;
         } else if (!$room_details[0] && $room_details[2] == 1) {

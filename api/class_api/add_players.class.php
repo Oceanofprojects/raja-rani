@@ -1,6 +1,5 @@
 <?php
 
-require_once 'db_line/connect.php';
 require_once 'room.class.php';
 
 
@@ -11,14 +10,13 @@ class add_players extends room
     public $db;
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
         $this->db = (object) $this->connect();
         $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
     }
 
     public function player_exist($player, $room_id)
     {
-        // ($this->valid_room($room_id)[0]) ? '' : die("Invalid room ID");
         $q = "SELECT * FROM play_ground WHERE players = '$player' AND room_id = '$room_id'";
         $sql = $this->db->prepare($q);
         if ($sql->execute()) {
@@ -70,39 +68,24 @@ class add_players extends room
     public function room_create($player)
     {
         $room = $this->create_room();
-        if ($room[0]) 
-        {
-            $validation = $this->validate_player_name($player);
-            if ($validation[0]) 
-            {
-                $player_detail = $this->player_exist($player, $room[1]);
-                if (!$player_detail[0] && $player_detail[2] == 1) 
-                {
-                    $store = $this->store_room($room[1]);
-                    if ($store[0]) 
-                    {
-                        $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room[1]', '$player', '1', '2', '0', '$this->date')");
-                        $sql_join = $q->execute();
-                        return "success";
-                    } 
-                    else
-                        return $store;
-                } 
-                else
-                    return $player_detail;
-            } 
-            else
-                return $validation;
-        } 
-        else
-            return $room;
+        $room[0] or $this->_error_throw($room);
+        $validation = $this->validate_player_name($player);
+        $validation[0] or $this->_error_throw($validation);
+        $player_detail = $this->player_exist($player, $room[1]);
+        !$player_detail[0] && $player_detail[2] == 1 or $this->_error_throw($player_detail);
+        $store = $this->store_room($room[1]);
+        $store[0] or $this->_error_throw($store);
+        $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room[1]', '$player', '1', '2', '0', '$this->date')");
+        $sql_join = $q->execute();
+        $sql_join or $this->_error_throw("Error in the insert playground");
+        return json_encode([true, $room[1], "Room created successfully"]);
     }
 }
 
 
-$obj = new add_players();
+// $obj = new add_players();
 // print_r($obj->join_room("Dhinesh", 123423));
-print_r($obj->room_create("Dhineeee"));
+// print_r($obj->room_create("Dhineeee"));
 
 /***
  * 

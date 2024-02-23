@@ -1,8 +1,0 @@
-1 - create form for create new room with below params.
-
-     [name]
-
-2 - create form for join room with below params.
-
-     [name][roomid]      
-     

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'db_line/connect.php';
+require_once '../db_line/connect.php';
 require_once 'add_players.class.php';
 class user_assemble extends add_players
 {
@@ -10,7 +10,7 @@ class user_assemble extends add_players
     private $active_chars;
     private $player_with_chars;
     private $active_main_chars = [];
-    public function __construct($name, $room_id)
+    public function __construct()
     {
         $this->db = (object) $this->connect();
         $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
@@ -152,7 +152,7 @@ class user_assemble extends add_players
         }
     }
 }
-$obj = new user_assemble("Dhineshhhh", "U12345");
+// $obj = new user_assemble("Dhineshhhh", "U12345");
 /***
  * 
  * GETTING ACTIVE ROOM
