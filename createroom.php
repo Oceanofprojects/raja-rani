@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="game-assets/gg-style/index.css">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <style>
         @font-face {
             font-family: g-title-f;
@@ -87,9 +86,7 @@
         </div>
     </div>
     <script src="game-assets/g-script/index.js"></script>
-    <script src="game-assets/g-script/rr_jx_feed.js"></script>
-
-    
+    <script src="game-assets/g-script/rr_jx_feed.js"></script>    
 
 </body>
 <?php

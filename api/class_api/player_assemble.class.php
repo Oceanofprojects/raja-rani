@@ -1,8 +1,8 @@
 <?php
 
-require_once '../db_line/connect.php';
-require_once 'add_players.class.php';
-class user_assemble extends add_players
+// require_once '../db_line/connect.php';
+// require_once 'add_players.class.php';
+class user_assemble
 {
     use connection;
     public $db;
@@ -10,30 +10,20 @@ class user_assemble extends add_players
     private $active_chars;
     private $player_with_chars;
     private $active_main_chars = [];
-    public function __construct()
+    public function __construct($players)
     {
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag) ? $this->db->connection : die('Error in db line');
-
+        $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw($this->db->message);
         // Character assign
         $char = $this->character_details();
-        if ($char[0])
-            $this->characters = $char[1];
-        else
-            die($char[1]);
+        $char['flag'] or $this->_error_throw($char);
+        $this->characters = $char['result'];
 
         $this->active_chars = [];
         $this->player_with_chars = [];
 
-        // $x = $this->add_character($name, $room_id);
-        // if($x[0]){
-        //     $y[] = [$x[1]];
-        // }
-        // $v = $this->users_entry($y);
-
-
         //Execution starts
-        $v = $this->users_entry([
+        /*$v = $this->users_entry([
             'name1',
             'name2',
             'name3',
@@ -43,11 +33,34 @@ class user_assemble extends add_players
             // 'name7',
             // 'name8'
 
-        ]);
+        ]);*/
+
+        $v = $this->users_entry($players);
+
+
         if ($v['flag']) {
             print_r($this->player_with_chars);
         } else {
             print_r($v);
+        }
+    }
+
+    public function users_entry($players)
+    {
+        $players_size = count($players);
+        $total_char_size = count($this->characters);
+        $char_priority_size = count($this->find_main_characters()['main']);
+        if ($players_size <= $total_char_size) {
+            if (count($players) >= ($char_priority_size)) {
+                foreach ($players as $player) {
+                    $this->assign_character($player['id']);
+                }
+                return ['status' => 'success', 'flag' => true, 'message' => 'Players assigned'];
+            } else {
+                return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Minimum " . $char_priority_size . " Players"];
+            }
+        } else {
+            return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Player limit -" . $total_char_size];
         }
     }
 
@@ -65,6 +78,7 @@ class user_assemble extends add_players
         if (!in_array($id, $this->active_chars)) {
             $this->active_chars[] = $id;
             $this->player_with_chars[] = [$user, $id]; //Assign character for user 
+            $this->char_assign($user, $id);
         } else {
             $this->assign_character($user); //re-assign
         }
@@ -103,24 +117,7 @@ class user_assemble extends add_players
         return ['main' => $main, 'not_main' => $not_main];
     }
 
-    public function users_entry($players)
-    {
-        $players_size = count($players);
-        $total_char_size = count($this->characters);
-        $char_priority_size = count($this->find_main_characters()['main']);
-        if ($players_size <= $total_char_size) {
-            if (count($players) >= ($char_priority_size)) {
-                foreach ($players as $player) {
-                    $this->assign_character($player);
-                }
-                return ['status' => 'success', 'flag' => true, 'message' => 'Players assigned'];
-            } else {
-                return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Minimum " . $char_priority_size . " Players"];
-            }
-        } else {
-            return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Player limit -" . $total_char_size];
-        }
-    }
+
 
     public function player_assigned_chars()
     {
@@ -136,21 +133,28 @@ class user_assemble extends add_players
         if ($sql->execute()) {
             $res = $sql->fetchall(PDO::FETCH_ASSOC);
             if (is_array($res) and count($res) > 0)
-                return [true, $res];
+                return ['flag' => true, 'result' => $res];
             else
-                return [false, "Characters not available"];
+                return ['flag' => false, 'message' => "Characters not available"];
         }
     }
 
-    public function add_character($name, $room_id)
+    public function char_assign($user, $id)
     {
-        $player = $this->validate_player_name($name, $room_id);
-        if (!$player[0] && $player[2] == 1) {
-            return [true];
-        } else {
-            return [false, $player[1]];
-        }
+        $q = $this->db->prepare("UPDATE play_ground SET character_id='$id' WHERE id='$user'");
+        $q->execute() or $this->_error_throw(['flag' => false, "message" => "Error in the Character update madule"]);
+        return ['flag' => true, 'message' => "Character updated successfully"];
     }
+
+    // public function add_character($name, $room_id)
+    // {
+    //     $player = $this->validate_player_name($name, $room_id);
+    //     if (!$player[0] && $player[2] == 1) {
+    //         return ['flag' => true];
+    //     } else {
+    //         return ['flag' => false, 'player' => $player[1]];
+    //     }
+    // }
 }
 // $obj = new user_assemble("Dhineshhhh", "U12345");
 /***
