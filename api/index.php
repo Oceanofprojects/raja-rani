@@ -6,13 +6,14 @@ require_once "class_api/player_assemble.class.php";
 
 $roomObj = new room();
 $playerObj = new add_players();
+$assembleObj = new user_assemble();
 
 if (isset($_POST['module']) && !empty($_POST['module'])) {
   switch ($_POST['module']) {
     case "add_player":
+          isset($_POST['name']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Name param missing']);
       switch ($_POST['action']) {
         case "create":
-          isset($_POST['name']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Name param missing']);
           $player = $_POST['name'];
           $room = $roomObj->create_room();
           $room['flag'] or $roomObj->_error_throw($room);
@@ -23,9 +24,7 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
           $createPlayer = $playerObj->add_in_playground($room['roomid'], $player);
           echo json_encode($createPlayer);
           break;
-
         case "join":
-          isset($_POST['name']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Name param missing']);
           isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room param missing']);
           $player = $_POST['name'];
           $roomid = $_POST['roomid'];
@@ -49,13 +48,32 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
       $roomObj->valid_room($roomid);
       echo json_encode($roomObj->get_all_players($roomid));
       break;
+
+    case "eachfetch":
+    echo json_encode([
+        "room"=>$roomObj->isvalidroom($_POST['roomid']),
+        "characters"=>[
+          'flag'=>true,
+          'all_chars'=>$assembleObj->character_details(),
+          'pri'=>$assembleObj->character_details(1),
+          'non_pri'=>$assembleObj->character_details(0),
+          'message'=>"fetched successfully"
+        ],
+        'players'=>[
+          'all_players'=>$roomObj->get_all_players($_POST['roomid']),
+          'online_players'=>$roomObj->get_all_players($_POST['roomid'],'online'),
+          'offline_players'=>$roomObj->get_all_players($_POST['roomid'],'offline'),
+          'waiting_players'=>$roomObj->get_all_players($_POST['roomid'],'waiting')
+        ]
+      ]);
+    break;
     
     case "character_allocate":
       isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room id param missing']);
       $roomid = $_POST['roomid'];
       $roomObj->valid_room($roomid);
       $players = $roomObj->get_all_players($roomid);
-      $assembleObj = new user_assemble($players['data']);
+      $assembleObj = $assembleObj->users_entry($players['data']);
       echo json_encode($assembleObj);
       break;
   }

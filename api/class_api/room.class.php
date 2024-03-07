@@ -12,6 +12,20 @@ class room
         $this->date = date("Y/m/d");
     }
 
+    public function isvalidroom($room_id){
+        $q = "SELECT * FROM room WHERE room_id = '$room_id' AND status <> 'close' AND TIMESTAMPDIFF(minute, created_on, CURRENT_TIMESTAMP) <60";
+        $sql = $this->db->prepare($q);
+        if ($sql->execute()) {
+            if($sql->rowCount()>0){
+                return ['flag'=>true,'data'=>$room_id,'message'=>'Room valid'];
+            }else{
+                return ['flag'=>false,'data'=>$room_id,'message'=>'Room Invalid/Expired'];
+            }          
+        }else{
+            return ['flag'=>false,'data'=>$room_id,'message'=>'Error in checking valid room'];
+        }
+    }
+
     public function valid_room($room_id)
     {
         // $q = "SELECT * FROM room WHERE room_id = '$room_id' AND status <> 'closed'";
@@ -56,19 +70,22 @@ class room
             return ['flag' => false, 'message' => "Error in the room creation"];
     }
 
-    public function get_all_players($roomid, $status1 = "", $status2 = "")
+    public function get_all_players($roomid, $status1 = "")
     {
         $status = '';
-        if (!empty($status1) && !empty($status2)) {
-            $status = " AND player_status IN ('$status1', '$status2')";
-        } else if (!empty($status2)) {
+        if (!empty($status1)) {
             $status = " AND player_status = '$status1'";
         }
         $q = $this->db->prepare("SELECT id, players, player_role, player_status, character_id FROM play_ground where room_id='$roomid'$status");
         if ($q->execute()) {
             $res = $q->fetchAll(PDO::FETCH_ASSOC);
             if (is_array($res)) {
-                return ['flag' => true, 'data' => $res, 'message' => "Fetched successfully", 'status' => 1];
+                if(count($res)>0){
+                return ['flag' => true, 'data' => $res, 'message' => "Fetched successfully", 'status' => 1];                   
+                }else{
+                return ['flag' => false, 'data' => [], 'message' => "There is no player available", 'status' => 1];
+
+                }
             } else {
                 return ['flag' => false, 'data' => [], 'message' => "There is no player available", 'status' => 1];
             }

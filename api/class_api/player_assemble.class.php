@@ -10,7 +10,7 @@ class user_assemble
     private $active_chars;
     private $player_with_chars;
     private $active_main_chars = [];
-    public function __construct($players)
+    public function __construct()
     {
         $this->db = (object) $this->connect();
         $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw($this->db->message);
@@ -35,14 +35,14 @@ class user_assemble
 
         ]);*/
 
-        $v = $this->users_entry($players);
+        // $v = $this->users_entry($players);
 
 
-        if ($v['flag']) {
-            print_r($this->player_with_chars);
-        } else {
-            print_r($v);
-        }
+        // if ($v['flag']) {
+        //     print_r($this->player_with_chars);
+        // } else {
+        //     print_r($v);
+        // }
     }
 
     public function users_entry($players)
@@ -127,9 +127,14 @@ class user_assemble
         return $t;
     }
 
-    public function character_details()
+    public function character_details($priority='')
     {
-        $sql = $this->db->prepare("SELECT * FROM characters");
+        if($priority==''){
+            $condition = "";
+        }else{
+             $condition = " WHERE priority = ".$priority;
+        }
+        $sql = $this->db->prepare("SELECT * FROM characters $condition");
         if ($sql->execute()) {
             $res = $sql->fetchall(PDO::FETCH_ASSOC);
             if (is_array($res) and count($res) > 0)
