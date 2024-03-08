@@ -55,14 +55,14 @@ class add_players
         !$player_detail['flag'] && $player_detail['status'] == 1 or $this->_error_throw($player_detail);
         $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room_id', '$player', '0', 'waiting', '0', '$this->date')");
         $q->execute() or $this->_error_throw(["flag" => false, "message" => "Error in the join room"]);
-        return ["flag" => true, "message" => "Player created Successfully"];
+        return ["flag" => true,"data"=>$room_id,"state"=>"nonacs","place"=>$this->db->lastInsertId(),"message" => "Player created Successfully"];
     }
 
     public function add_in_playground($room, $player)
     {
         $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room', '$player', '1', 'waiting', '0', '$this->date')");
         $q->execute() or $this->_error_throw(["flag" => false, "message" => "Error in the insert playground"]);
-        return ["flag" => true, "roomid" => $room, "message" => "Room created successfully"];
+        return ["flag" => true, "data" => $room,"state"=>"acs","place"=>$this->db->lastInsertId(), "message" => "Room created successfully"];
     }
 
     /*public function player_status($player = '', $roomid)

@@ -30,7 +30,7 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
           $roomid = $_POST['roomid'];
           $room_availablity_check = $roomObj->room_availability($roomid);
           $room_availablity_check['flag'] or $roomObj->_error_throw($room_availablity_check);
-          $roomMembers = $roomObj->get_all_players($roomid, "online", "waiting");
+          $roomMembers = $roomObj->get_all_players($roomid, "waiting");
           if ($roomMembers['flag'] || $roomMembers['status'] == 1) {
             if (count($roomMembers['data']) < 6) {
               $joinPlayer = $playerObj->join_room($player, $roomid);
