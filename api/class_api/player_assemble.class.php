@@ -21,28 +21,6 @@ class user_assemble
 
         $this->active_chars = [];
         $this->player_with_chars = [];
-
-        //Execution starts
-        /*$v = $this->users_entry([
-            'name1',
-            'name2',
-            'name3',
-            'name4',
-            // 'name5',
-            // 'name6',
-            // 'name7',
-            // 'name8'
-
-        ]);*/
-
-        // $v = $this->users_entry($players);
-
-
-        // if ($v['flag']) {
-        //     print_r($this->player_with_chars);
-        // } else {
-        //     print_r($v);
-        // }
     }
 
     public function users_entry($players)
@@ -61,6 +39,18 @@ class user_assemble
             }
         } else {
             return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Player limit -" . $total_char_size];
+        }
+    }
+
+    public function get_character_by_player_id($roomid,$player_id)
+    {
+        $sql = $this->db->prepare("SELECT player_status,players,character_id as ch_plc FROM play_ground WHERE id=$player_id AND room_id='$roomid'");
+        if ($sql->execute()) {
+            $res = $sql->fetchall(PDO::FETCH_ASSOC);
+            if (is_array($res) and count($res) > 0)
+                return ['flag' => true, 'data' => $res,'message'=>'Character fetched !'];
+            else
+                return ['flag' => false, 'message' => "Error fetch Character"];
         }
     }
 

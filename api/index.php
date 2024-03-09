@@ -28,6 +28,8 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
           isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room param missing']);
           $player = $_POST['name'];
           $roomid = $_POST['roomid'];
+          $valid_room = $roomObj->isvalidroom($roomid);
+          $valid_room['flag'] or $roomObj->_error_throw($valid_room);
           $room_availablity_check = $roomObj->room_availability($roomid);
           $room_availablity_check['flag'] or $roomObj->_error_throw($room_availablity_check);
           $roomMembers = $roomObj->get_all_players($roomid, "waiting");
@@ -67,7 +69,12 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
         ]
       ]);
     break;
-    
+    case "_get_my_char":
+      isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room id param missing']);
+      isset($_POST['plc']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Plc id param missing']);
+      echo json_encode($assembleObj->get_character_by_player_id($_POST['roomid'],$_POST['plc']));
+      break;
+
     case "character_allocate":
       isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room id param missing']);
       $roomid = $_POST['roomid'];
