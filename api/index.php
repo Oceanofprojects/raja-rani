@@ -3,12 +3,21 @@
 
 header('Content-Type: application/json');
 
+if(!isset($_GET['api'])){
+	$response = array(
+		'status'=>false,
+		'data'=>[],
+		'message'=>'API not found !'
+	);
+	echo json_encode($response);
+	exit;
+}
 if($_GET['api'] == 'test'){
 	$response = array(
 		'message'=>'Hello world'
 	);
 	echo json_encode($response);
-}else if($_GET['api'] == 'live'){
+}else if($_GET['api'] && $_GET['api'] == 'live'){
 	$host = $_ENV['PG_HOST'];
 	$port = $_ENV['PG_PORT'];
 	$db = $_ENV['PG_DB'];
