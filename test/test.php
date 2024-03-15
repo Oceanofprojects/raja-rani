@@ -1,5 +1,0 @@
-<?php
-
-//TEST CODE HERE
-
-?>

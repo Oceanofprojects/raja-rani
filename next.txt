@@ -1,2 +1,0 @@
-1. Get players for particular room (online and offline players) - DONE
-2. Room number and charcter ID -> player name (from DB).
