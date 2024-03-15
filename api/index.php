@@ -25,9 +25,6 @@ $password = $_ENV['PG_PASSWORD'];
 $endpoint = $_ENV['PG_ENDPOINT'];
 
 $connection_string = "host=" . $host . " port=" . $port . " dbname=" . $db . " user=" . $user . " password=" . $password . " options='endpoint=" . $endpoint . "' sslmode=require";
-print_r($_ENV);
-echo "<br><br.<br>";
-echo $connection_string;
 $dbconn = pg_connect($connection_string);
 
 if (!$dbconn) {
