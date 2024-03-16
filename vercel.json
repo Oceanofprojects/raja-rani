@@ -1,9 +1,8 @@
 {
   "functions": {
     "api/*.php": {
-      "runtime": "vercel-php@0.6.0",
-
-"installCommand":"npm install pg"}},
+      "runtime": "vercel-php@0.6.0"
+    }},
   "routes": [
     { "src": "/(.*)",  "dest": "/api/index.php" }
   ],
@@ -14,5 +13,15 @@
     "PG_USER": "default",
     "PG_PASSWORD": "H1z8ijGmApFC",
     "PG_ENDPOINT": "ep-weathered-union-a6u3fr7k-pooler.us-west-2.aws.neon.tech"
-  }
+  },
+  {
+  "version": 2,
+  "builds": [
+    {
+      "src": "*.php",
+      "use": "@vercel/php"
+    }
+  ],
+  "installCommand": "npm install pg"
+}
 }
