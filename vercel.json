@@ -5,7 +5,7 @@
     },
 "myfunction":{
 
-"installCommand":"npm install @vercel/postgres"
+"installCommand":"npm install pg"
 }  },
   "routes": [
     { "src": "/(.*)",  "dest": "/api/index.php" }
