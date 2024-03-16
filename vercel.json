@@ -1,10 +1,12 @@
 {
   "functions": {
     "api/*.php": {
-      "runtime": "vercel-php@0.6.0",
-      "installCommand":"npm install @vercel/postgres"
-    }
-  },
+      "runtime": "vercel-php@0.6.0"
+    },
+"myfunction":{
+
+"installCommand":"npm install @vercel/postgres"
+}  },
   "routes": [
     { "src": "/(.*)",  "dest": "/api/index.php" }
   ],
