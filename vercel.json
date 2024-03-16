@@ -1,12 +1,10 @@
 {
   "functions": {
     "api/*.php": {
-      "runtime": "vercel-php@0.6.0"
-    },
-"myfunction":{
-
-"installCommand":"npm install pg"
-}  },
+      "runtime": "vercel-php@0.6.0",
+"installCommand":"npm install pg"    
+}
+},
   "routes": [
     { "src": "/(.*)",  "dest": "/api/index.php" }
   ],
