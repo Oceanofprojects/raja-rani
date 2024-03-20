@@ -25,7 +25,7 @@ if($_GET['api'] == 'test'){
             echo json_encode(['flag'=>true,'data'=>$connection]); //return Connection
         } catch (PDOException $e) {
             //We throw the exception
-            throw new Exception('Problem establishing the connection.');
+            throw new Exception('Problem establishing the connection.('.$e->getMessage().')');
         }
 	// $host = $_ENV['PG_HOST'];
 	// $port = $_ENV['PG_PORT'];
