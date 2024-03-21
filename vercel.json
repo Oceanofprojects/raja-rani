@@ -5,11 +5,7 @@
     }
   },
   "routes": [
-    { "src": "/(.*)",  "dest": "/api/index.php",
-    "methods": ["GET", "POST"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
+    { "src": "/(.*)",  "dest": "/api/index.php"
     }
   ],
   "env": {
