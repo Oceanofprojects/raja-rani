@@ -5,7 +5,12 @@
     }
   },
   "routes": [
-    { "src": "/(.*)",  "dest": "/api/index.php" }
+    { "src": "/(.*)",  "dest": "/api/index.php",
+    "methods": ["GET", "POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }
   ],
   "env": {
     "PG_HOST":"ep-weathered-union-a6u3fr7k-pooler.us-west-2.aws.neon.tech",
