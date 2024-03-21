@@ -1,5 +1,5 @@
 <?php
-require_once '../db_line/connect.php';
+require_once 'connect.php';
 require_once "class_api/add_players.class.php";
 require_once "class_api/room.class.php";
 require_once "class_api/player_assemble.class.php";
