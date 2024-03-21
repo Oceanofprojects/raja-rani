@@ -18,9 +18,9 @@ if($_GET['api'] == 'test'){
 	);
 	echo json_encode($response);
 }else if($_GET['api'] && $_GET['api'] == 'live'){
-	        $con = 'mysql:host=localhost;dbname=id20369875_ecom;';
+	        $con = 'mysql:host=sql.freedb.tech;dbname=freedb_raja_rani;';
         try {
-            $connection = new PDO($con,'id20369875_ecom','Vimalamani@9050');
+            $connection = new PDO($con,'freedb_raja_rani_owner','?KV6dkgM@*8966N');
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             echo json_encode(['flag'=>true,'data'=>$connection]); //return Connection
         } catch (PDOException $e) {
