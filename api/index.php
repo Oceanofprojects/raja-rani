@@ -1,5 +1,5 @@
 <?php
-print_r($_REQUEST);exit;
+//print_r($_REQUEST);exit;
 require_once 'connect.php';
 require_once "class_api/add_players.class.php";
 require_once "class_api/room.class.php";
