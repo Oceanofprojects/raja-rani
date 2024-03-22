@@ -89,4 +89,7 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
       echo json_encode($assembleObj);
       break;
   }
+  default:
+    $roomObj->_error_throw(['flag' => false, 'message' => 'Undefined module']);
+    break;
 }
