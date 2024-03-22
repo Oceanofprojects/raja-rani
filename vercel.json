@@ -6,11 +6,11 @@
   },
   "routes": [
     { "src": "/(.*)",  "dest": "/api/index.php",
-     "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Authorization, Content-Type"
-      }
+     "headers": [
+        {key:"Access-Control-Allow-Origin",value:"*"},
+        {key:"Access-Control-Allow-Methods",value:"POST"},
+        {key:"Access-Control-Allow-Headers", value:"Authorization, Content-Type"}
+     ]
     }
   ],
   "env": {
