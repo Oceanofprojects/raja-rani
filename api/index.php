@@ -1,9 +1,6 @@
 <?php
-print_r($_REQUEST);
-echo "TEST";
-exit;
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 require_once 'connect.php';
