@@ -1,7 +1,7 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+/*header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");*/
 
 require_once 'connect.php';
 require_once "class_api/add_players.class.php";
