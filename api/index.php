@@ -1,8 +1,9 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
+mail("manimaran18051999@gmail.com","subject","hello");
 require_once 'connect.php';
 require_once "class_api/add_players.class.php";
 require_once "class_api/room.class.php";
