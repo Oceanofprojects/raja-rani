@@ -7,8 +7,13 @@ class room
     public $date;
     public function __construct()
     {
+
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw($this->db->message);
+        if($this->db->flag){
+            $this->db = $this->db->connection;
+        }else{
+            $this->_error_throw($this->db->message);
+        }
         $this->date = date("Y/m/d");
     }
 
@@ -93,6 +98,19 @@ class room
             return ['flag' => false, 'message' => 'Error in players in the room module', 'status' => 0];
         }
     }
+    public function roomState($roomid){
+        $q = $this->db->prepare("SELECT status FROM `room` WHERE room_id = '$roomid'");
+        if ($q->execute()) {
+            $res = $q->fetch(PDO::FETCH_ASSOC);
+            if (is_array($res)) {
+                return ['flag' => true, 'data' => $res, 'message' => "Room status",'s'=>$roomid];
+            } else {
+                return ['flag' => false, 'message' => "Room expired"];
+            }
+        } else {
+            return ['flag' => false, 'message' => 'Error in the room available module'];
+        }
+    }
 
     public function room_availability($roomid)
     {
@@ -109,3 +127,4 @@ class room
         }
     }
 }
+?>

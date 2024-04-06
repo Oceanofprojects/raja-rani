@@ -1,11 +1,27 @@
 <?php 
 trait connection{
-    private $host = 'sql.freedb.tech';
-    private $user = 'freedb_raja_rani_owner';
-    private $pass = '?KV6dkgM@*8966N';
-    private $db_name = 'freedb_raja_rani';
+    private $host;
+    private $user;
+    private $pass;
+    private $db_name;
+    private $RR_ENV = 'live';
 
     function connect(){
+        if($this->RR_ENV == 'test'){
+            //Local config
+            $_SESSION['ENV'] = 'test';
+            $this->host = 'localhost';
+            $this->user = 'root';
+            $this->pass = '';
+            $this->db_name = 'raja_rani';            
+        }else{
+            //Live config
+            $_SESSION['ENV'] = 'prod';
+            $this->host = 'sql.freedb.tech';
+            $this->user = 'freedb_raja_rani_owner';
+            $this->pass = '?KV6dkgM@*8966N';
+            $this->db_name = 'freedb_raja_rani';
+        }
         try{
             $con = new PDO("mysql:host=$this->host;dbname=$this->db_name",$this->user,$this->pass); 
             return ['flag'=>true,'connection'=>$con,'message'=>'line connected !'];
@@ -18,13 +34,13 @@ trait connection{
         if(is_array($data)){
             foreach($data as $key => $val){
                 if(is_numeric($key)){
-                    echo 'Undefined array format';
-                   exit;
+                    die(json_encode(['status'=>false,'data'=>[],'message'=>'Undefined array format']));
                 }else{
-                    echo json_encode($data);
-                   exit;
+                    die(json_encode($data));
                 }
             }
+        }else if(is_string($data) && !empty($data)){
+                die(json_encode(['status'=>false,'data'=>[],'message'=>$data]));
         }
     }
 }

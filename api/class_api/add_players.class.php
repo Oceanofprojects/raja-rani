@@ -9,7 +9,11 @@ class add_players
     public function __construct()
     {
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw($this->db->message);
+        if($this->db->flag){
+            $this->db = $this->db->connection;
+        }else{
+            $this->_error_throw($this->db->message);
+        }
         $this->date = date("Y/m/d");
     }
 
@@ -79,3 +83,4 @@ class add_players
 
     
 }
+?>

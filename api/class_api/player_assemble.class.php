@@ -13,7 +13,23 @@ class user_assemble
     public function __construct()
     {
         $this->db = (object) $this->connect();
-        $this->db = ($this->db->flag) ? $this->db->connection : $this->_error_throw($this->db->message);
+        if($this->db->flag){
+            $this->db = $this->db->connection;
+        }else{
+            $this->_error_throw($this->db->message);
+        }
+        // Character assign
+        // $char = $this->character_details();
+        // print_r($char);exit;
+        // $char['flag'] or $this->_error_throw($char);
+        // $this->characters = $char['result'];
+
+        // $this->active_chars = [];
+        // $this->player_with_chars = [];
+    }
+
+    public function users_entry($players)
+    {
         // Character assign
         $char = $this->character_details();
         $char['flag'] or $this->_error_throw($char);
@@ -21,10 +37,7 @@ class user_assemble
 
         $this->active_chars = [];
         $this->player_with_chars = [];
-    }
 
-    public function users_entry($players)
-    {
         $players_size = count($players);
         $total_char_size = count($this->characters);
         $char_priority_size = count($this->find_main_characters()['main']);
@@ -117,14 +130,20 @@ class user_assemble
         return $t;
     }
 
-    public function character_details($priority='')
+    public function character_details($priority='',$flow_for='server')
     {
+        //flow_for (Access overall details only in internal function)
         if($priority==''){
             $condition = "";
         }else{
              $condition = " WHERE priority = ".$priority;
         }
-        $sql = $this->db->prepare("SELECT * FROM characters $condition");
+        if($flow_for== 'server'){
+            $cols ='*'; 
+        }else{
+            $cols ='_character as characters'; 
+        }
+        $sql = $this->db->prepare("SELECT $cols FROM characters $condition");
         if ($sql->execute()) {
             $res = $sql->fetchall(PDO::FETCH_ASSOC);
             if (is_array($res) and count($res) > 0)
@@ -169,3 +188,4 @@ class user_assemble
  * SELECT * FROM play_ground left join points on play_ground.id = points.ground_id
  * 
  */
+?>
