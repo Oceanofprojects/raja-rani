@@ -1,7 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
 
 require_once 'connect.php';
 require_once "class_api/add_players.class.php";
@@ -11,6 +9,11 @@ $roomObj = new room();
 $playerObj = new add_players();
 $assembleObj = new user_assemble();
 
+if(strtolower($roomObj->RR_ENV) != 'test'){
+  header("Access-Control-Allow-Origin: *");
+  header("Access-Control-Allow-Methods: POST");
+  header("Access-Control-Allow-Headers: Content-Type, Authorization");
+}
 if (isset($_POST['module']) && !empty($_POST['module'])) {
   if($_POST['module'] == "add_player"){
     if(isset($_POST['action'])){
