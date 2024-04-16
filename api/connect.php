@@ -4,7 +4,7 @@ trait connection{
     private $user;
     private $pass;
     private $db_name;
-    public $RR_ENV = 'live';
+    public $RR_ENV = 'prod';
 
     function connect(){
         if($this->RR_ENV == 'test'){

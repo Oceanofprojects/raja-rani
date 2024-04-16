@@ -54,13 +54,17 @@ if (isset($_POST['module']) && !empty($_POST['module'])) {
       $rdata = $roomObj->isvalidroom($roomid);
     $rdata['flag'] or $roomObj->_error_throw(['flag' => false, 'message' => $rdata['message']]);
       $players = $roomObj->get_all_players($roomid);
-      $assembleObj = $assembleObj->users_entry($players['data']);
+      $assembleObj = $assembleObj->users_entry($players['data'],$roomid);
       echo json_encode($assembleObj);
+  }else if($_POST['module'] == 'change_player_mode'){
+    isset($_POST['roomid']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Room id param missing']);
+      $rdata = $roomObj->isvalidroom($_POST['roomid']);
+        $rdata['flag'] or $roomObj->_error_throw(['flag' => false, 'message' => $rdata['message']]);
+      echo json_encode($assembleObj->change_player_mode($_POST['roomid'],$_POST['plc'],$_POST['st']));
   }else{
     $roomObj->_error_throw(['flag' => false, 'message' => 'Undef-Module']);
   }
 }
-
   // switch ($_POST['module']) {
   //   case "add_player":
   //         isset($_POST['name']) or $roomObj->_error_throw(['flag' => false, 'message' => 'Name param missing']);

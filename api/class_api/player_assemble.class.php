@@ -28,7 +28,7 @@ class user_assemble
         // $this->player_with_chars = [];
     }
 
-    public function users_entry($players)
+    public function users_entry($players,$roomid)
     {
         // Character assign
         $char = $this->character_details();
@@ -46,7 +46,13 @@ class user_assemble
                 foreach ($players as $player) {
                     $this->assign_character($player['id']);
                 }
-                return ['status' => 'success', 'flag' => true, 'message' => 'Players assigned'];
+                //OPEN ROOM
+                $sql = $this->db->prepare("UPDATE room set status='open' WHERE room_id='$roomid'");
+                if ($sql->execute()) {
+                    return ['status' => 'success', 'flag' => true, 'message' => 'Players assigned'];
+                }else{
+                    return ['status' => 'failed', 'flag' => false, 'message' => 'Failed to open room'];
+                }
             } else {
                 return ['status' => 'failed', 'flag' => false, 'message' => "Oops !, Minimum " . $char_priority_size . " Players"];
             }
@@ -66,6 +72,23 @@ class user_assemble
                 return ['flag' => false, 'message' => "Error fetch Character"];
         }
     }
+
+    public function change_player_mode($roomid,$player_id,$st='off'){
+        if($st == 'act'){
+            $st = 'online';
+        }else if($st == 'wat'){
+            $st = 'waiting';
+        }else if($st == 'off'){
+            $st = 'offline';
+        }
+        $sql = $this->db->prepare("UPDATE play_ground set player_status='$st' WHERE room_id='$roomid' AND id=$player_id");
+        if ($sql->execute()) {
+                return ['flag' => true, 'data' => [],'message'=>'Player mode changed !'];
+        }else{
+            return ['flag' => false, 'message' => "Failed to change player status !"];
+        }
+    }
+
 
     public function assign_character($user)
     {
