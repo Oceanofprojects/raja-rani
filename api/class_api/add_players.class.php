@@ -19,17 +19,17 @@ class add_players
 
     public function player_exist($player, $room_id)
     {
-        $q = "SELECT * FROM play_ground WHERE players = '$player' AND room_id = '$room_id'";
+        $q = "SELECT * FROM play_ground WHERE players = '$player' AND room_id = '$room_id' AND player_status IN('online','waiting')";
         $sql = $this->db->prepare($q);
         if ($sql->execute()) {
             $res = $sql->fetch();
             if (is_array($res)) {
-                return (count($res) > 0) ? ["flag" => true, "message" => 'Player Already exist', "status" => 2] : ["flag" => false, "message" => 'New Player', "status" => 1];
+                return (count($res) > 0) ? ["flag" => true, "message" => 'Player Already exist'] : ["flag" => false, "message" => 'New Player'];
             } else {
-                return ["flag" => false, "message" => 'New Player', "status" => 1];
+                return ["flag" => false, "message" => 'New Player'];
             }
         } else {
-            return ["flag" => false, "message" => 'Error in player exist module', "status" => 0];
+            $this->_error_throw('Error in player exist module');
         }
     }
 
@@ -56,10 +56,10 @@ class add_players
         $validation['flag'] or $this->_error_throw($validation);
         $player_detail = $this->player_exist($player, $room_id);
 
-        !$player_detail['flag'] && $player_detail['status'] == 1 or $this->_error_throw($player_detail);
+        !$player_detail['flag'] or $this->_error_throw($player_detail['message']);
         $q = $this->db->prepare("INSERT INTO play_ground (`room_id`, `players`, `player_role`, `player_status`, `character_id`, `_date`) VALUES ('$room_id', '$player', '0', 'waiting', '0', '$this->date')");
         $q->execute() or $this->_error_throw(["flag" => false, "message" => "Error in the join room"]);
-        return ["flag" => true,"data"=>$room_id,"state"=>"nonacs","place"=>$this->db->lastInsertId(),"message" => "Player created Successfully"];
+        return ["flag" => true,"data"=>$room_id,"state"=>"nonacs","place"=>$this->db->lastInsertId(),"message" => "Player added Successfully"];
     }
 
     public function add_in_playground($room, $player)
